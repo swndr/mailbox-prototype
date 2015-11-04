@@ -29,12 +29,12 @@ class MailboxViewController: UIViewController {
         mailboxSegmentedControl.selectedSegmentIndex = 1
         
         // Add initial left icon
-        leftIcon.frame = CGRect(x:10,y:30,width:25,height:25)
+        leftIcon.frame = CGRect(x:20,y:30,width:25,height:25)
         leftIcon.image = UIImage(named: "archive_icon")
         messageListBackgroundView.addSubview(leftIcon)
         
         // Add initial right icon
-        rightIcon.frame = CGRect(x:view.frame.size.width-35,y:30,width:25,height:25)
+        rightIcon.frame = CGRect(x:view.frame.size.width-45,y:30,width:25,height:25)
         rightIcon.image = UIImage(named: "later_icon")
         messageListBackgroundView.addSubview(rightIcon)
         
@@ -50,65 +50,71 @@ class MailboxViewController: UIViewController {
     @IBAction func didPanMessageListItem(sender: UIPanGestureRecognizer) {
         
         //let location = sender.locationInView(view)
-        //var msgX = messageListItemView.frame.origin.x
         let translation = sender.translationInView(view)
-        
-        print("method called")
         //let velocity = sender.velocityInView(view)
+        
         if sender.state == UIGestureRecognizerState.Began {
-            print("started")
         } else if sender.state == UIGestureRecognizerState.Changed {
             print(messageListItemView.frame.origin.x)
             messageListItemView.frame.origin.x = translation.x
             
+            // Change list item background color and action icons
             switch messageListItemView.frame.origin.x {
             case -320 ... -240:
                 messageListBackgroundView.backgroundColor = brownColor
                 rightIcon.image = UIImage(named: "list_icon")
+                rightIcon.frame.origin.x = messageListItemView.frame.origin.x + messageListItemView.frame.size.width + 20
             case -239 ... -60:
                 messageListBackgroundView.backgroundColor = yellowColor
                 rightIcon.image = UIImage(named: "later_icon")
-            case -59 ... 60:
-                 messageListBackgroundView.backgroundColor = grayColor
-            case 61 ... 239:
-                 messageListBackgroundView.backgroundColor = greenColor
+                rightIcon.frame.origin.x = messageListItemView.frame.origin.x + messageListItemView.frame.size.width + 20
+            case -59 ... 59:
+                messageListBackgroundView.backgroundColor = grayColor
+                leftIcon.frame.origin.x = 20
+                rightIcon.frame.origin.x = view.frame.size.width-45
+            case 60 ... 239:
+                messageListBackgroundView.backgroundColor = greenColor
                 leftIcon.image = UIImage(named: "archive_icon")
+                leftIcon.frame.origin.x = messageListItemView.frame.origin.x - 40
             case 240 ... 320:
-                 messageListBackgroundView.backgroundColor = redColor
+                messageListBackgroundView.backgroundColor = redColor
                 leftIcon.image = UIImage(named: "delete_icon")
+                leftIcon.frame.origin.x = messageListItemView.frame.origin.x - 40
             default:
                 print(messageListItemView.frame.origin.x)
             }
             
             
         } else if sender.state == UIGestureRecognizerState.Ended {
+            
+            // Decide were to snap list item
             switch messageListItemView.frame.origin.x {
             case -320 ... -240:
-                print("R2")
+                // List
                 UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
                     self.messageListItemView.frame.origin.x = -320
                     }, completion: { (Bool) -> Void in
                 })
             case -239 ... -60:
-                print("R1")
+                // Later
                 UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
                     self.messageListItemView.frame.origin.x = -320
                     }, completion: { (Bool) -> Void in
                 })
-            case -59 ... 60:
-                print("Bounce")
+            case -59 ... 59:
+                // Return
                 UIView.animateWithDuration(0.15, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
                     self.messageListItemView.frame.origin.x = 0
                     }, completion: { (Bool) -> Void in
                 })
-            case 61 ... 239:
-                print("L1")
+            case 60 ... 239:
+                // Archive
                 UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
                     self.messageListItemView.frame.origin.x = 320
                     }, completion: { (Bool) -> Void in
                 })
             case 240 ... 320:
-                print("L2")
+                // Delete
                 UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
                     self.messageListItemView.frame.origin.x = 320
                     }, completion: { (Bool) -> Void in
