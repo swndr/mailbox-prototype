@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MailboxViewController.swift
 //  Mailbox Proto
 //
 //  Created by Sam Wander on 11/3/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MailboxViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

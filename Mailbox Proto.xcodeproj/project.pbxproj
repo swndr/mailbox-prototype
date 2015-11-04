@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C25E08181BE99583000FA527 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25E08171BE99583000FA527 /* AppDelegate.swift */; };
-		C25E081A1BE99583000FA527 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25E08191BE99583000FA527 /* ViewController.swift */; };
+		C25E081A1BE99583000FA527 /* MailboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25E08191BE99583000FA527 /* MailboxViewController.swift */; };
 		C25E081D1BE99583000FA527 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C25E081B1BE99583000FA527 /* Main.storyboard */; };
 		C25E081F1BE99583000FA527 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C25E081E1BE99583000FA527 /* Assets.xcassets */; };
 		C25E08221BE99583000FA527 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C25E08201BE99583000FA527 /* LaunchScreen.storyboard */; };
@@ -17,7 +17,7 @@
 /* Begin PBXFileReference section */
 		C25E08141BE99583000FA527 /* Mailbox Proto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mailbox Proto.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C25E08171BE99583000FA527 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C25E08191BE99583000FA527 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C25E08191BE99583000FA527 /* MailboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxViewController.swift; sourceTree = "<group>"; };
 		C25E081C1BE99583000FA527 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C25E081E1BE99583000FA527 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C25E08211BE99583000FA527 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,10 +55,10 @@
 			isa = PBXGroup;
 			children = (
 				C25E08171BE99583000FA527 /* AppDelegate.swift */,
-				C25E08191BE99583000FA527 /* ViewController.swift */,
+				C25E08191BE99583000FA527 /* MailboxViewController.swift */,
 				C25E081B1BE99583000FA527 /* Main.storyboard */,
-				C25E081E1BE99583000FA527 /* Assets.xcassets */,
 				C25E08201BE99583000FA527 /* LaunchScreen.storyboard */,
+				C25E081E1BE99583000FA527 /* Assets.xcassets */,
 				C25E08231BE99583000FA527 /* Info.plist */,
 			);
 			path = "Mailbox Proto";
@@ -135,7 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C25E081A1BE99583000FA527 /* ViewController.swift in Sources */,
+				C25E081A1BE99583000FA527 /* MailboxViewController.swift in Sources */,
 				C25E08181BE99583000FA527 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
