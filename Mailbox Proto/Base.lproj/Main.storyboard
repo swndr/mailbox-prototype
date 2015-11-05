@@ -109,6 +109,7 @@
                         <outlet property="messageListItemView" destination="NpS-Os-vyQ" id="VSw-BD-iDh"/>
                         <outlet property="messageListScrollView" destination="Ok1-6h-5GL" id="tUw-5F-FAg"/>
                         <outlet property="rescheduleView" destination="nwn-k7-gTJ" id="fyY-g7-MNA"/>
+                        <outlet property="swipeMessageGesture" destination="8Wn-JG-X0p" id="0aX-07-Yh8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

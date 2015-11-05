@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MailboxViewController: UIViewController {
+class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var mailboxSegmentedControl: UISegmentedControl!
     
@@ -32,8 +32,15 @@ class MailboxViewController: UIViewController {
     // Dynamic sizes
     var dw: CGFloat = 0.0
     
+    var edgeGesture: UIScreenEdgePanGestureRecognizer!
+    @IBOutlet var swipeMessageGesture: UIPanGestureRecognizer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        edgeGesture.edges = UIRectEdge.Left
+        messageListScrollView.addGestureRecognizer(edgeGesture)
+        swipeMessageGesture.delegate = self
         
         rescheduleView.alpha = 0.0
         listView.alpha = 0.0
@@ -161,6 +168,7 @@ class MailboxViewController: UIViewController {
         }
     }
     
+    // Prevent swiping here...
     func hideMessage() {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
             self.feedView.frame.origin.y = 142
@@ -168,6 +176,7 @@ class MailboxViewController: UIViewController {
         })
     }
     
+    // Hide list overlay
     @IBAction func didTapListView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.2, delay: 0.2, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
             self.listView.alpha = 0.0
@@ -175,12 +184,21 @@ class MailboxViewController: UIViewController {
         })
     }
     
-    
+    // Hide reschedule overlay
     @IBAction func didTapRescheduleView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.2, delay: 0.2, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
             self.rescheduleView.alpha = 0.0
             }, completion: { (Bool) -> Void in
         })
+    }
+    
+    func onEdgePan(sender:UIScreenEdgePanGestureRecognizer) {
+        print("edge")
+    }
+    
+    // Still need to figure this part
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true
     }
 
 }
