@@ -12,6 +12,8 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var mailboxSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var containerView: UIView!
+    
     @IBOutlet weak var feedView: UIImageView!
     @IBOutlet weak var messageListItemView: UIImageView!
     @IBOutlet weak var messageListBackgroundView: UIView!
@@ -21,6 +23,8 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var rescheduleView: UIImageView!
     @IBOutlet weak var listView: UIImageView!
+    
+    var originalContainerX: CGFloat = 0.0
 
     // Mailbox colors
     let grayColor = UIColor(red: 234/255, green: 235/255, blue: 236/255, alpha: 1)
@@ -31,15 +35,20 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Dynamic sizes
     var dw: CGFloat = 0.0
-    
+
     var edgeGesture: UIScreenEdgePanGestureRecognizer!
-    @IBOutlet var swipeMessageGesture: UIPanGestureRecognizer!
+    var swipeMessageGesture: UIPanGestureRecognizer!
+    
+    var messageListItemRemoved:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
         edgeGesture.edges = UIRectEdge.Left
-        messageListScrollView.addGestureRecognizer(edgeGesture)
+        containerView.addGestureRecognizer(edgeGesture)
+        
+        swipeMessageGesture = UIPanGestureRecognizer(target: self, action: "didPanMessageListItem:")
+        messageListItemView.addGestureRecognizer(swipeMessageGesture)
         swipeMessageGesture.delegate = self
         
         rescheduleView.alpha = 0.0
@@ -60,7 +69,6 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         messageListBackgroundView.addSubview(rightIcon)
         
         messageListBackgroundView.backgroundColor = grayColor
-        //messageListItemView.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,15 +76,12 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
 
-    @IBAction func didPanMessageListItem(sender: UIPanGestureRecognizer) {
+    func didPanMessageListItem(sender: UIPanGestureRecognizer) {
         
-        //let location = sender.locationInView(view)
         let translation = sender.translationInView(view)
-        //let velocity = sender.velocityInView(view)
         
         if sender.state == UIGestureRecognizerState.Began {
         } else if sender.state == UIGestureRecognizerState.Changed {
-            print(messageListItemView.frame.origin.x)
             messageListItemView.frame.origin.x = translation.x
             
             // Change list item background color and action icons
@@ -173,6 +178,7 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
             self.feedView.frame.origin.y = 142
             }, completion: { (Bool) -> Void in
+                self.messageListItemRemoved = true
         })
     }
     
@@ -193,13 +199,93 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func onEdgePan(sender:UIScreenEdgePanGestureRecognizer) {
-        print("edge")
+        let translation = sender.translationInView(view)
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            originalContainerX = containerView.frame.origin.x
+            
+        } else if sender.state == UIGestureRecognizerState.Changed {
+            containerView.frame.origin.x = originalContainerX + translation.x
+            
+        } else if sender.state == UIGestureRecognizerState.Ended {
+            
+            if translation.x > 80 {
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                    self.containerView.frame.origin.x = 285.0
+                    }, completion: { (Bool) -> Void in
+                        self.messageListItemView.removeGestureRecognizer(self.swipeMessageGesture)
+                        self.containerView.removeGestureRecognizer(sender)
+                        let containerPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "onPanContainer:")
+                        self.containerView.addGestureRecognizer(containerPanGestureRecognizer)
+                })
+            } else {
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                    self.containerView.frame.origin.x = 0.0
+                    }, completion: { (Bool) -> Void in
+                })
+            }
+        }
+    }
+  
+    func onPanContainer(sender:UIPanGestureRecognizer) {
+        
+        let translation = sender.translationInView(view)
+
+        if sender.state == UIGestureRecognizerState.Began {
+            originalContainerX = containerView.frame.origin.x
+            
+        } else if sender.state == UIGestureRecognizerState.Changed {
+            containerView.frame.origin.x = originalContainerX + translation.x
+            
+        } else if sender.state == UIGestureRecognizerState.Ended {
+            
+            if containerView.frame.origin.x < 240 {
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                    self.containerView.frame.origin.x = 0.0
+                    }, completion: { (Bool) -> Void in
+                        self.containerView.removeGestureRecognizer(sender)
+                        self.messageListItemView.addGestureRecognizer(self.swipeMessageGesture)
+                        self.containerView.addGestureRecognizer(self.edgeGesture)
+                })
+            } else {
+                UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                    self.containerView.frame.origin.x = 285.0
+                    }, completion: { (Bool) -> Void in
+                })
+            }
+    
+        }
     }
     
-    // Still need to figure this part
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     return true
     }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if otherGestureRecognizer == edgeGesture {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    // Shake to undo
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if motion == .MotionShake {
+            if messageListItemRemoved {
+                UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                    self.feedView.frame.origin.y = 228
+                    }, completion: { (Bool) -> Void in
+                        UIView.animateWithDuration(0.2, delay: 0.0, options: [UIViewAnimationOptions.CurveEaseInOut], animations: { () -> Void in
+                            self.messageListItemView.frame.origin.x = 0
+                            }, completion: { (Bool) -> Void in
+                                self.messageListItemRemoved = false
+                        })
+                })
+            }
+        }
+    }
+
 
 }
 

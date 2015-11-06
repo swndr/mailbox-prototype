@@ -13,15 +13,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menu" id="TZ8-uv-yOc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
+                            </imageView>
                             <view contentMode="scaleToFill" id="3o1-F4-zsr" userLabel="Container">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="menu" id="TZ8-uv-yOc">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
-                                    </imageView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Ok1-6h-5GL">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -37,9 +37,6 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
                                                 <gestureRecognizers/>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="8Wn-JG-X0p" appends="YES" id="feE-62-4Lz"/>
-                                                </connections>
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="feed" id="8RP-x1-YBw">
                                                 <rect key="frame" x="0.0" y="228" width="320" height="1202"/>
@@ -96,12 +93,14 @@
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                             </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="3o1-F4-zsr" id="FzK-sD-c7h"/>
                         <outlet property="feedView" destination="8RP-x1-YBw" id="Tdm-b2-U9L"/>
                         <outlet property="listView" destination="Gag-aw-cF4" id="ibi-Rs-rQS"/>
                         <outlet property="mailboxSegmentedControl" destination="jQX-7O-Ceq" id="1l8-ml-duR"/>
@@ -109,15 +108,9 @@
                         <outlet property="messageListItemView" destination="NpS-Os-vyQ" id="VSw-BD-iDh"/>
                         <outlet property="messageListScrollView" destination="Ok1-6h-5GL" id="tUw-5F-FAg"/>
                         <outlet property="rescheduleView" destination="nwn-k7-gTJ" id="fyY-g7-MNA"/>
-                        <outlet property="swipeMessageGesture" destination="8Wn-JG-X0p" id="0aX-07-Yh8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="8Wn-JG-X0p">
-                    <connections>
-                        <action selector="didPanMessageListItem:" destination="BYZ-38-t0r" id="P5k-H0-Csd"/>
-                    </connections>
-                </panGestureRecognizer>
                 <tapGestureRecognizer id="kI1-JW-c6E">
                     <connections>
                         <action selector="didTapListView:" destination="BYZ-38-t0r" id="qTr-XC-pyb"/>
